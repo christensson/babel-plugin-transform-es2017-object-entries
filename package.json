@@ -1,0 +1,25 @@
+{
+  "name": "babel-plugin-transform-es2017-object-entries",
+  "version": "0.0.1",
+  "description": "Babel plugin for transforming ES2017 features Object.entries and Object.keys",
+  "main": "index.js",
+  "scripts": {
+    "test": "rm -rf test/out && babel test --out-dir test/out"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christensson/babel-plugin-transform-es2017-object-entries.git"
+  },
+  "author": "Marcus Christensson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/christensson/babel-plugin-transform-es2017-object-entries/issues"
+  },
+  "homepage": "https://github.com/christensson/babel-plugin-transform-es2017-object-entries#readme",
+  "dependencies": {
+    "babel-core": "^6.20.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0"
+  }
+}
