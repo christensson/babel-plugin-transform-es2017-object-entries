@@ -5,6 +5,30 @@ function toLowerCaseFirstLetter(str) {
   return str[0].toLowerCase() + str.slice(1);
 };
 
+function genForeachArray(t, loopVar, arrayVar, loopStatement) {
+  return t.forStatement(
+    t.variableDeclaration("let", [ t.variableDeclarator(loopVar, t.numericLiteral(0)) ]),
+    t.binaryExpression("<", loopVar, t.memberExpression(arrayVar, t.identifier("length"))),
+    t.unaryExpression("++", loopVar),
+    loopStatement
+  );
+}
+
+function genObjectMemberCall(t, objName, memberName, args) {
+  return t.callExpression(
+    t.memberExpression(t.identifier(objName), t.identifier(memberName)),
+    args
+  );
+}
+
+function genVariableDeclaration(t, varName, init) {
+  return t.variableDeclaration("let", [ t.variableDeclarator(t.identifier(varName), init) ]);
+}
+
+function genArrayGetIndex(t, arrayName, index) {
+  return t.memberExpression(t.identifier(arrayName), index, true)
+}
+
 module.exports = function({ types: t }) {
   return {
     visitor: {
@@ -15,14 +39,55 @@ module.exports = function({ types: t }) {
         },
 
         exit(path, {file, opts}) {
-          if (!file.get(OBJECT_VALUES) && !path.scope.hasBinding(opts)) {
+          const objectEntriesId = file.get(OBJECT_ENTRIES);
+          const objectValuesId = file.get(OBJECT_VALUES);
+          if (!objectEntriesId && !objectValuesId && !path.scope.hasBinding(opts)) {
             return;
           }
 
-          // TODO: Replace declar with function implementation...
-          const declar = t.identifier("ping");
-
-          path.node.body.unshift(declar);
+          if (objectEntriesId) {
+            const obj = t.identifier("obj");
+            const declar = t.functionExpression(objectEntriesId, [ obj ],
+              t.blockStatement([
+                genVariableDeclaration(t, "entries", t.arrayExpression()),
+                genVariableDeclaration(t, "keys", genObjectMemberCall(t, "Object", "keys", [ obj ])),
+                genForeachArray(t, t.identifier("k"), t.identifier("keys"),
+                  t.expressionStatement(
+                    genObjectMemberCall(t, "entries", "push", [
+                        t.arrayExpression([
+                          genArrayGetIndex(t, "keys", t.identifier("k")),
+                          genArrayGetIndex(t, "obj", genArrayGetIndex(t, "keys", t.identifier("k")))
+                        ])
+                    ])
+                  )
+                ),
+                t.returnStatement(
+                  t.identifier("entries")
+                )
+              ])
+            );
+            path.node.body.unshift(declar);
+          }
+          if (objectValuesId) {
+            const obj = t.identifier("obj");
+            const declar = t.functionExpression(objectValuesId, [ obj ],
+              t.blockStatement([
+                genVariableDeclaration(t, "values", t.arrayExpression()),
+                genVariableDeclaration(t, "keys", genObjectMemberCall(t, "Object", "keys", [ obj ])),
+                genForeachArray(t, t.identifier("k"), t.identifier("keys"),
+                  t.expressionStatement(
+                    genObjectMemberCall(t, "values", "push", [
+                        t.memberExpression(t.identifier("obj"), t.memberExpression(t.identifier("keys"), t.identifier("k"), true), true)
+                    ])
+                  )
+                ),
+                t.returnStatement(
+                  t.identifier("values")
+                )
+              ])
+            );
+            path.node.body.unshift(declar);
+          }
         }
       },
       CallExpression(path, {file}) {
