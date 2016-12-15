@@ -4,7 +4,7 @@
   "description": "Babel plugin for transforming ES2017 features Object.entries and Object.keys",
   "main": "index.js",
   "scripts": {
-    "test": "rm -rf test/out && babel test --out-dir test/out"
+    "test": "rm -f test/transpiled_wrapper.js && babel -o test/transpiled_wrapper.js test/wrapper.js && mocha test/test.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,8 @@
     "babel-core": "^6.20.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0"
+    "babel-cli": "^6.18.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }

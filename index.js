@@ -1,3 +1,5 @@
+"use strict";
+
 const OBJECT_ENTRIES = 'ObjectEntries';
 const OBJECT_VALUES = 'ObjectValues';
 
@@ -7,7 +9,7 @@ function toLowerCaseFirstLetter(str) {
 
 function genForeachArray(t, loopVar, arrayVar, loopStatement) {
   return t.forStatement(
-    t.variableDeclaration("let", [ t.variableDeclarator(loopVar, t.numericLiteral(0)) ]),
+    t.variableDeclaration("var", [ t.variableDeclarator(loopVar, t.numericLiteral(0)) ]),
     t.binaryExpression("<", loopVar, t.memberExpression(arrayVar, t.identifier("length"))),
     t.unaryExpression("++", loopVar),
     loopStatement
@@ -22,7 +24,7 @@ function genObjectMemberCall(t, objName, memberName, args) {
 }
 
 function genVariableDeclaration(t, varName, init) {
-  return t.variableDeclaration("let", [ t.variableDeclarator(t.identifier(varName), init) ]);
+  return t.variableDeclaration("var", [ t.variableDeclarator(t.identifier(varName), init) ]);
 }
 
 function genArrayGetIndex(t, arrayName, index) {

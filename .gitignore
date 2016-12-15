@@ -2,6 +2,7 @@
 logs
 *.log
 npm-debug.log*
+test/transpiled_wrapper.js
 
 # Runtime data
 pids
