@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-es2017-object-entries",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Babel plugin for transforming ES2017 features Object.entries and Object.keys",
   "main": "src/index.js",
   "scripts": {
