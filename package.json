@@ -2,7 +2,7 @@
   "name": "babel-plugin-transform-es2017-object-entries",
   "version": "0.0.1",
   "description": "Babel plugin for transforming ES2017 features Object.entries and Object.keys",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "rm -f test/transpiled_wrapper.js && babel -o test/transpiled_wrapper.js test/wrapper.js && mocha test/test.js"
   },
