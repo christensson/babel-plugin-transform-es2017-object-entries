@@ -6,7 +6,7 @@ const wrapper = require("./transpiled_wrapper")
 describe("test", function() {
   const testObjs = [
     {
-      id: "test1",
+      id: "flat object",
       data: {
         a: "1",
         b: 2,
@@ -14,7 +14,7 @@ describe("test", function() {
       }
     },
     {
-      id: "test2",
+      id: "complex object",
       data: {
         a: true,
         b: false,
@@ -25,11 +25,15 @@ describe("test", function() {
         d: [ true, false ]
       }
     },
+    {
+      id: "empty object",
+      data: {}
+    },
   ];
 
   describe("Object.values", function() {
     for (const obj of testObjs) {
-      it("shall work according to reference with data id " + obj.id, function() {
+      it("shall work according to reference with data " + obj.id, function() {
         assert.deepEqual(wrapper.objectValues(obj.data), Object.values(obj.data));
       });
     }
@@ -37,7 +41,7 @@ describe("test", function() {
 
   describe("Object.entries", function() {
     for (const obj of testObjs) {
-      it("shall work according to reference with data id " + obj.id, function() {
+      it("shall work according to reference with data " + obj.id, function() {
         assert.deepEqual(wrapper.objectEntries(obj.data), Object.entries(obj.data));
       });
     }
