@@ -6,7 +6,7 @@ This plugin replaces calls to `Object.entries()` and `Object.values()` with call
 ## Example `.babelrc` configuration
 ```
 {
-  "plugins": ["babel-plugin-transform-object-entries"]
+  "plugins": ["transform-es2017-object-entries"]
 }
 ```
 
