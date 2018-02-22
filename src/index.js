@@ -11,7 +11,7 @@ function genForeachArray(t, loopVar, arrayVar, loopStatement) {
   return t.forStatement(
     t.variableDeclaration("var", [ t.variableDeclarator(loopVar, t.numericLiteral(0)) ]),
     t.binaryExpression("<", loopVar, t.memberExpression(arrayVar, t.identifier("length"))),
-    t.unaryExpression("++", loopVar),
+    t.updateExpression("++", loopVar),
     loopStatement
   );
 }
